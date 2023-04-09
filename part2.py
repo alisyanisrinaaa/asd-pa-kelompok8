@@ -251,7 +251,7 @@ class ToDoList:
     def aluradmin(self):
         while True:
             os.system("cls")
-            print(65*"=")
+            print(50*"=")
             print("1. Tambahkan To Do List")
             print("2. Hapus To Do List ")
             print("3. Tandai To Do List yang Selesai")
@@ -260,7 +260,7 @@ class ToDoList:
             print("6. Cari To Do List")
             print("7. Mengurutkan To Do List sesuai Abjad ")
             print("8. Exit")
-            print(65*"=")
+            print(50*"=")
             pilihan = int(input("Masukkan pilihan anda : "))
             if pilihan == 1:
                 tdl = input("Masukkan to do list terbaru : ")
@@ -317,7 +317,7 @@ class ToDoList:
         while True:
             print("Selamat datang di program pembuatan to do list\nSilahkan login terlebih dahulu")
             print("1. Login Admin\n2. Login User\n3. Register User\nPRESS ANYTHING FOR EXIT")
-            x = input("masukkan pilihan anda : ")
+            x = input("Masukkan Pilihan Anda : ")
             if x == '1':
                 login_admin()
                 self.aluradmin()
