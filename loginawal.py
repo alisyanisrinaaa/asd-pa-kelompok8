@@ -1,72 +1,63 @@
+import os
 import pwinput
+import json
 
-def lihat():
-    try:
-        file = open("user.txt", "r")
-    except FileNotFoundError:
-        return []
-    user = []
-    for line in file:
-        user.append(line.strip())
-    file.close()
-    return user
+admin = {"username" : ["novan", "lisya", "faiz"],
+         "password" : ["admin1", "admin2", "admin3"]}
 
-def cek_akun(nama, username, password):
-    for akun in username :
-        if nama in akun and username in akun and password in akun:
-            return True
-    return False
-
-def registrasi(nama, username, password):
-    user = lihat()
-    if not cek_akun(nama, username, password):
-        user.append(f"{nama} : {username} : {password}")
-        file = open("user.txt", "w")
-        for akun in user:
-            file.write(akun + "\n")
-        file.close()
-        print("Pengguna berhasil ditambahkan.")
-    else:
-        print("Pengguna sudah terdaftar.")
-
-def proses():
-    nama = input("Masukkan Nama Anda : ")
-    username = input("Masukkan Username Anda : ")
-    password = pwinput.pwinput(prompt="Masukkan Password : ")
-    return nama, username, password
-
-def main():
+file_json = open("dataUser.json")
+data_1 = json.loads(file_json.read())
+def settingUser():
+	with open("dataUser.json", "w") as dataBaru:
+		json.dump(data_1, dataBaru)
+		
+def login_user():
     while True:
-        print("="*45)
-        print("="*45)
-        print("\t1. Login")
-        print("\t2. Registrasi Akun")
-        print("\t3. Exit")
-        print("="*45)
-        pilih = int(input("Halo, ingin ke menu apa? "))
-        print("")
-
-        if pilih == 1:
-            nama, username, password = proses()
-            user = lihat()
-            for akun in user:
-                if nama in akun and username in akun and password in akun:
-                    print("Anda berhasil login.")
+        username = input("Silahkan Masukkan Username Anda : ")
+        password = pwinput.pwinput ("Silahkan Masukkan Password Anda : ")
+        if password.isnumeric:
+            try:
+                login = data_1["username"].index(username)
+                if username == data_1["username"][login] and password == data_1["password"][login]:
+                    os.system('cls')
                     break
                 else:
-                    print("Data pengguna tidak ditemukan. Silakan coba lagi.")            
-                    print("")
-        elif pilih == 2:
-            nama, username, password = proses()
-            registrasi(nama, username, password)
-            print("")
-        elif pilih == 3:
-            print(" Terima Kasih ^___^ ".center(45,"-"))
-            print("")
-            break
-        else:
-            print("")
-            print("Invalid")
-            raise SystemExit
-        
-main()
+                    print("\n <<< Password Anda Salah >>> \nSilahkan Coba Kembali\n")
+            except ValueError:
+                print("\n<<< Username Anda Salah>>> \nSilahkan Coba Kembali\n")
+
+def tambah_user():
+    while True:
+        try:
+            username = input("Masukkan Username Baru Anda : ")
+            if username.isalnum()==False:
+                print("<<< Username tidak boleh ada spasi, simbol dan kosong >>>")
+            elif username in data_1["username"]:
+                print("<<< Username telah digunakan >>>")
+            elif username not in data_1["username"]:
+                password=str(pwinput.pwinput("Masukkan password : ")).replace("\t","").replace(" ","")
+                if password =="":
+                    print("!!! Password dilarang kosong dan menggunakan spasi !!! ")
+                else:
+                    data_1["username"].append(username)
+                    data_1["password"].append(password)
+                    os.system('cls')
+                    print("Registrasi berhasil ^____^")
+                    settingUser()
+                    break
+        except ValueError:
+            print ("<<< Dilarang memasukkan data kosong !!! >>>")
+
+def login_admin():
+        while True:
+            username = input("Silahkan Masukkan Username Anda : ")
+            password = pwinput.pwinput ("Silahkan Masukkan Password Anda : ")
+            try:
+                login = admin.get("username").index(username)
+                if username == admin.get("username")[login] and password == admin.get("password")[login]:
+                    os.system('cls')
+                    break
+                else:
+                    print("\n <<< Password Anda Salah >>> \nSilahkan Coba Kembali\n")
+            except ValueError:
+                print("\n <<< Username Anda Salah >>> \nSilahkan Coba Kembali\n")
