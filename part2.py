@@ -73,10 +73,7 @@ class ToDoList:
             print(table)
 
     def jump_search_task(self, description):
-        # Sorting tasks by description
         tasks = self.sort_tasks()
-        
-        # Applying jump search algorithm
         n = len(tasks)
         jump = int(n**0.5)
         left = 0
